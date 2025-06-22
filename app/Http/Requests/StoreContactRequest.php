@@ -40,6 +40,10 @@ class StoreContactRequest extends FormRequest
                 'min:10',
                 'max:1000',
             ],
+            'phone' => [
+                'required',
+                'regex:/^\+[1-9]\d{1,14}$/'
+            ],
 
 
         ];
@@ -56,6 +60,9 @@ class StoreContactRequest extends FormRequest
             'email.required' => 'البريد الإلكتروني مطلوب.',
             'email.email' =>  'صيغة البريد الإلكتروني غير صحيحة يجب انا تكون @gmail.com أو @yahoo.com أو @hotmail.com او حسابات شركات ',
             'email.max' => 'البريد الإلكتروني لا يجب أن يتجاوز 255 حرفًا.',
+
+            'phone.required' => 'رقم الهاتف مطلوب.',
+            'phone.regex' => 'رقم الهاتف يجب أن يبدأ بـ "+" ويكون رقم دولي صالح.',
 
             'message_body.required' => 'نص الرسالة مطلوب.',
             'message_body.string' => 'يجب أن تكون الرسالة نصًا.',
