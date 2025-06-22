@@ -7,7 +7,7 @@
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-      
+
 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <table class="min-w-full divide-y divide-gray-200 text-sm text-gray-800">
@@ -24,7 +24,7 @@
                             <tr class="border-b">
                                 <td class="py-2">{{ $message->full_name }}</td>
                                 <td class="py-2">{{ $message->email }}</td>
-                                <td class="py-2">{{ $message->message_body }}</td>
+                                <td class="py-2 max-w-md whitespace-normal">{{ $message->message_body }}</td>
                                 <td class="py-2">
                                     <form action="{{ route('admin.messages.destroy', $message->id) }}" method="POST">
                                         @csrf
