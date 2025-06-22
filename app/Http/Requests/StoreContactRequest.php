@@ -22,9 +22,45 @@ class StoreContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name'    => 'required|string|max:255',
-            'email'        => 'required|email|max:255',
-            'message_body' => 'required|string|min:10',
+            'full_name' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[\pL\s\-]+$/u'
+            ],
+            'email' => [
+                'required',
+                'email:rfc,dns',
+                'max:255',
+            ],
+            'message_body' => [
+                'required',
+                'string',
+                'min:10',
+                'max:1000',
+            ],
+
+
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            'full_name.required' => 'الاسم الكامل مطلوب.',
+            'full_name.string' => 'يجب أن يكون الاسم نصًا.',
+            'full_name.min' => 'الاسم يجب أن يحتوي على 3 أحرف على الأقل.',
+            'full_name.max' => 'الاسم لا يجب أن يتجاوز 255 حرفًا.',
+            'full_name.regex' => 'الاسم يجب أن يحتوي على حروف ومسافات وشرطات فقط.',
+
+            'email.required' => 'البريد الإلكتروني مطلوب.',
+            'email.email' =>  'صيغة البريد الإلكتروني غير صحيحة يجب انا تكون @gmail.com أو @yahoo.com أو @hotmail.com او حسابات شركات ',
+            'email.max' => 'البريد الإلكتروني لا يجب أن يتجاوز 255 حرفًا.',
+
+            'message_body.required' => 'نص الرسالة مطلوب.',
+            'message_body.string' => 'يجب أن تكون الرسالة نصًا.',
+            'message_body.min' => 'الرسالة يجب أن تحتوي على 10 أحرف على الأقل.',
+            'message_body.max' => 'الرسالة لا يجب أن تتجاوز 1000 حرف.',
         ];
     }
 }
