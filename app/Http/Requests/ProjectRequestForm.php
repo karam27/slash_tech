@@ -46,7 +46,7 @@ class ProjectRequestForm extends FormRequest
             'name.regex' => 'الاسم يحتوي على أحرف غير مسموحة.',
 
             'email.required' => 'البريد الإلكتروني مطلوب.',
-            'email.email' =>  'صيغة البريد الإلكتروني غير صحيحة يجب انا تكون @gmail.com أو @yahoo.com أو @hotmail.com او حسابات شركات ',
+            'email.email' =>  'صيغة البريد الإلكتروني غير صحيحة يجب أن تكون @gmail أو @yahoo أو @hotmail     ',
             'email.max' => 'البريد الإلكتروني لا يجب أن يتجاوز 255 حرفًا.',
 
             'phone.required' => 'رقم الهاتف مطلوب.',
