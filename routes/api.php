@@ -11,4 +11,4 @@ Route::get('services', [ServiceController::class, 'index']);
 Route::get('portfolio', [PortfolioController::class, 'index']);
 Route::post('/contact', [ContactController::class, 'store']);
 Route::post('/project-request', [ProjectRequestController::class, 'sendEmail']);
-Route::get('/portfolios/{id}', [PortfolioShowController::class, 'show']);
+Route::get('/portfolio/{id}', [PortfolioShowController::class, 'show']);
