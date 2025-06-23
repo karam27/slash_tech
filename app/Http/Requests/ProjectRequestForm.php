@@ -33,10 +33,32 @@ class ProjectRequestForm extends FormRequest
                 'regex:/^\+[1-9]\d{1,14}$/'
             ],
             'type' => 'required|string',
-            'details' => 'required|string|min:10|max:1000',
+            'details' => 'required|string|min:10', // حذف max لأنه يقيس عدد الحروف فقط
+            'exceeds_word_limit' => 'prohibited', // نستخدمه للكشف عن تجاوز الكلمات
         ];
     }
-    public function messages()
+
+    /**
+     * تنفيذ عمليات قبل التحقق، مثل التحقق من عدد الكلمات.
+     */
+    public function prepareForValidation(): void
+    {
+        $details = strip_tags($this->input('details') ?? '');
+
+        // طريقة دقيقة لحساب الكلمات سواء بالعربية أو الإنجليزية
+        $wordCount = count(preg_split('/\s+/u', $details, -1, PREG_SPLIT_NO_EMPTY));
+
+        if ($wordCount > 1000) {
+            $this->merge([
+                'exceeds_word_limit' => true,
+            ]);
+        }
+    }
+
+    /**
+     * رسائل الأخطاء المخصصة.
+     */
+    public function messages(): array
     {
         return [
             'name.required' => 'الاسم مطلوب.',
@@ -46,7 +68,7 @@ class ProjectRequestForm extends FormRequest
             'name.regex' => 'الاسم يحتوي على أحرف غير مسموحة.',
 
             'email.required' => 'البريد الإلكتروني مطلوب.',
-            'email.email' =>  'صيغة البريد الإلكتروني غير صحيحة يجب أن تكون @gmail أو @yahoo أو @hotmail     ',
+            'email.email' => 'صيغة البريد الإلكتروني غير صحيحة يجب أن تكون @gmail أو @yahoo أو @hotmail.',
             'email.max' => 'البريد الإلكتروني لا يجب أن يتجاوز 255 حرفًا.',
 
             'phone.required' => 'رقم الهاتف مطلوب.',
@@ -58,7 +80,8 @@ class ProjectRequestForm extends FormRequest
             'details.required' => 'تفاصيل المشروع مطلوبة.',
             'details.string' => 'تفاصيل المشروع يجب أن تكون نصاً.',
             'details.min' => 'تفاصيل المشروع يجب أن تكون 10 حروف على الأقل.',
-            'details.max' => 'تفاصيل المشروع لا يجب أن تتجاوز 1000 حرف.',
+
+            'exceeds_word_limit.prohibited' => 'تفاصيل المشروع لا يجب أن تتجاوز 1000 كلمة.',
         ];
     }
 }
