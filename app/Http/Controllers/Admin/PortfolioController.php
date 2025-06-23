@@ -82,7 +82,7 @@ class PortfolioController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'project_url' => 'nullable|url',
             'image' => 'nullable|image|max:2048',

@@ -25,54 +25,64 @@
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-xl rounded-xl p-8">
 
+
+                {{-- التنبيهات --}}
                 @if ($errors->any())
-                    <div class="mb-6 bg-red-50 border-l-4 border-red-400 text-red-800 p-4 rounded-r-lg" role="alert">
-                        <div class="flex">
-                            <div class="py-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 ml-2" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                            </div>
+                    <div class="mb-6 bg-red-50 border border-red-300 text-red-800 p-4 rounded-lg" role="alert">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-6 h-6 mt-1 text-red-500" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01M4.293 6.293a1 1 0 011.414 0L12 12.586l6.293-6.293a1 1 0 011.414 1.414L13.414 14l6.293 6.293a1 1 0 01-1.414 1.414L12 15.414l-6.293 6.293a1 1 0 01-1.414-1.414L10.586 14 4.293 7.707a1 1 0 010-1.414z" />
+                            </svg>
                             <div>
-                                <p class="font-bold mb-1">حدث خطأ</p>
-                                <ul class="list-disc pr-5 space-y-1">
+                                <p class="font-semibold">حدثت الأخطاء التالية:</p>
+                                <ul class="list-disc pr-5 mt-2 text-sm space-y-1">
                                     @foreach ($errors->all() as $error)
-                                        <li class="text-sm">{{ $error }}</li>
+                                        <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
                             </div>
                         </div>
                     </div>
                 @endif
-
                 <form action="{{ route('admin.services.update', $service->id) }}" method="POST"
                     enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     @method('PUT')
 
+                    {{-- عنوان الخدمة --}}
                     <div>
-                        <label for="title" class="block text-sm font-medium text-gray-700 mb-1">عنوان الخدمة</label>
+                        <label for="title" class="block text-sm font-medium text-gray-700 mb-1">عنوان
+                            الخدمة</label>
                         <input type="text" name="title" id="title" value="{{ old('title', $service->title) }}"
-                            class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition"
-                            required>
+                            class="block w-full px-4 py-2 border @error('title') border-red-500 @else border-gray-300 @enderror rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition">
+                        @error('title')
+                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
+                    {{-- وصف الخدمة --}}
                     <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">وصف الخدمة</label>
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">وصف
+                            الخدمة</label>
                         <textarea name="description" id="description" rows="4"
-                            class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition"
-                            required>{{ old('description', $service->description) }}</textarea>
+                            class="block w-full px-4 py-2 border @error('description') border-red-500 @else border-gray-300 @enderror rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition">{{ old('description', $service->description) }}</textarea>
+                        @error('description')
+                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
+                    {{-- حقول الصورة --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+
+                        {{-- رفع صورة جديدة --}}
                         <div>
                             <label for="image" class="block text-sm font-medium text-gray-700 mb-1">
                                 تغيير صورة الخدمة (اختياري)
                             </label>
                             <div
-                                class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+                                class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 @error('image') border-red-500 @else border-gray-300 @enderror border-dashed rounded-lg">
                                 <div class="space-y-1 text-center">
                                     <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
                                         viewBox="0 0 48 48" aria-hidden="true">
@@ -86,15 +96,17 @@
                                             <span>اختر صورة</span>
                                             <input id="image" name="image" type="file" class="sr-only">
                                         </label>
-                                        <p class="pl-1">أو اسحبه وأفلته هنا</p>
+                                        <p class="pl-1">أو اسحبها وأفلتها هنا</p>
                                     </div>
-                                    <p class="text-xs text-gray-500">
-                                        PNG, JPG, GIF up to 10MB
-                                    </p>
+                                    <p class="text-xs text-gray-500">PNG, JPG, GIF up to 2MB</p>
                                 </div>
                             </div>
+                            @error('image')
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
 
+                        {{-- الصورة الحالية وخيار الحذف --}}
                         @if ($service->image)
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">الصورة الحالية</label>
@@ -102,12 +114,14 @@
                                     <img src="{{ asset('storage/' . $service->image) }}" alt="الصورة الحالية"
                                         class="w-full h-auto object-cover rounded-lg shadow-md border border-gray-200">
                                 </div>
+
                             </div>
                         @endif
                     </div>
 
+                    {{-- الأزرار --}}
                     <div
-                        class="flex items-center justify-end space-x-4 space-x-reverse pt-4 border-t border-gray-200 mt-8">
+                        class="flex items-center justify-end space-x-4 space-x-reverse pt-6 border-t border-gray-200 mt-6">
                         <a href="{{ route('admin.services.index') }}"
                             class="px-5 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition">
                             إلغاء
