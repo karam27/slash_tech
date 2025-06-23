@@ -38,16 +38,27 @@ class StoreContactRequest extends FormRequest
                 'required',
                 'string',
                 'min:10',
-                'max:1000',
             ],
             'phone' => [
                 'required',
                 'regex:/^\+[1-9]\d{1,14}$/'
             ],
-
-
+            'exceeds_word_limit' => 'prohibited',
         ];
     }
+
+    public function prepareForValidation(): void
+    {
+        $message = strip_tags($this->input('message_body') ?? '');
+        $wordCount = count(preg_split('/\s+/u', $message, -1, PREG_SPLIT_NO_EMPTY));
+
+        if ($wordCount > 1000) {
+            $this->merge([
+                'exceeds_word_limit' => true,
+            ]);
+        }
+    }
+
     public function messages(): array
     {
         return [
@@ -58,7 +69,7 @@ class StoreContactRequest extends FormRequest
             'full_name.regex' => 'الاسم يجب أن يحتوي على حروف ومسافات وشرطات فقط.',
 
             'email.required' => 'البريد الإلكتروني مطلوب.',
-            'email.email' =>  'صيغة البريد الإلكتروني غير صحيحة يجب انا تكون @gmail.com أو @yahoo.com أو @hotmail.com او حسابات شركات ',
+            'email.email' =>  'صيغة البريد الإلكتروني غير صحيحة يجب أن تكون @gmail.com أو @yahoo.com أو @hotmail.com أو حساب شركات.',
             'email.max' => 'البريد الإلكتروني لا يجب أن يتجاوز 255 حرفًا.',
 
             'phone.required' => 'رقم الهاتف مطلوب.',
@@ -67,7 +78,8 @@ class StoreContactRequest extends FormRequest
             'message_body.required' => 'نص الرسالة مطلوب.',
             'message_body.string' => 'يجب أن تكون الرسالة نصًا.',
             'message_body.min' => 'الرسالة يجب أن تحتوي على 10 أحرف على الأقل.',
-            'message_body.max' => 'الرسالة لا يجب أن تتجاوز 1000 حرف.',
+
+            'exceeds_word_limit.prohibited' => 'نص الرسالة لا يجب أن يتجاوز 1000 كلمة.',
         ];
     }
 }
