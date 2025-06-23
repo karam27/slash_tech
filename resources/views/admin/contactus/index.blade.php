@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <x-slot name="header">
         <h2 class="text-xl font-semibold text-gray-800 leading-tight">
             إدارة الرسائل
@@ -24,7 +25,8 @@
                                 <td class="py-2">{{ $message->full_name }}</td>
                                 <td class="py-2">{{ $message->email }}</td>
                                 <td class="py-2">{{ $message->phone }}</td>
-                                <td class="py-2 max-w-md whitespace-normal">{{ $message->message_body }}</td>
+                                <td class="py-2 max-w-md whitespace-normal" style="width: 300px">
+                                    {{ $message->message_body }}</td>
                                 <td class="py-2">
                                     <form action="{{ route('admin.messages.destroy', $message->id) }}" method="POST">
                                         @csrf
