@@ -13,20 +13,27 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard');
 
-
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('portfolio', PortfolioController::class)->names('portfolio');
-    Route::delete('portfolio/images/{id}', [PortfolioImageController::class, 'destroy'])->name('portfolio.image.destroy');
+
+    Route::delete('portfolio/images/{id}', [PortfolioImageController::class, 'destroy'])
+        ->name('portfolio.image.destroy');
+
     Route::resource('services', ServiceController::class)->names('services');
-    Route::get('messages', [ContactMessageController::class, 'index'])->name('messages.index');
-    Route::delete('messages/{id}', [ContactMessageController::class, 'destroy'])->name('messages.destroy');
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+
+    Route::get('messages', [ContactMessageController::class, 'index'])
+        ->name('messages.index');
+
+    Route::delete('messages/{id}', [ContactMessageController::class, 'destroy'])
+        ->name('messages.destroy');
 });
 
 Route::middleware('auth')->group(function () {
