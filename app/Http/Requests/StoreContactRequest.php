@@ -69,7 +69,7 @@ class StoreContactRequest extends FormRequest
             'full_name.regex' => 'الاسم يجب أن يحتوي على حروف ومسافات وشرطات فقط.',
 
             'email.required' => 'البريد الإلكتروني مطلوب.',
-            'email.email' =>  'صيغة البريد الإلكتروني غير صحيحة يجب أن تكون @gmail.com أو @yahoo.com أو @hotmail.com أو حساب شركات.',
+            'email.email' =>  'صيغة البريد الإلكتروني غير صحيحة يجب أن تكون @gmail أو @yahooأو @hotmail.',
             'email.max' => 'البريد الإلكتروني لا يجب أن يتجاوز 255 حرفًا.',
 
             'phone.required' => 'رقم الهاتف مطلوب.',
