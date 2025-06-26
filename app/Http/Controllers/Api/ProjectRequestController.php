@@ -14,7 +14,7 @@ class ProjectRequestController extends Controller
     {
         $validated = $request->validated();
 
-        Mail::to('test@example.com')->send(new ProjectRequestMail($validated));
+        Mail::to('contact@slashtech.co')->send(new ProjectRequestMail($validated));
 
         return response()->json(['message' => 'تم إرسال الطلب بنجاح']);
     }
