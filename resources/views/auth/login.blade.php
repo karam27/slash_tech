@@ -5,7 +5,7 @@
 
     <!-- الشعار -->
     <div class="flex justify-center mb-4">
-        <img src="{{ asset('storage/images/slashTech2.png') }}" alt="شعار slash Tech" style="max-width: 150px;">
+        <img src="{{ asset('storage/images/slachTech.png') }}" alt="شعار slash Tech" style="max-width: 150px;">
     </div>
 
 
